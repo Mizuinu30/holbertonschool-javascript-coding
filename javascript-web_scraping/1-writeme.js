@@ -3,19 +3,17 @@
 const fs = require('fs');
 const process = require('process');
 
-if (process.argv.length <= 3) {
-    console.log("Usage: ./1-writeme.js <file_path> <string_to_write>");
+if (process.argv.length <= 2) {
+    console.log("Usage: ./0-readme.js <file_path>");
     process.exit(-1);
 }
 
-const frilePath = process.argv[2];
-const string_to_write = process.argv[3];
+const filePath = process.argv[2];
 
-
-fs.writeFile(filePath, stringToWrite, 'utf-8', (err) => {
+fs.readFile(filePath, 'utf-8', (err, data) => {
     if (err) {
         console.error(err);
         return;
     }
-    console.log('Content written to ${filepath}');
+    console.log(data);
 });
