@@ -12,9 +12,9 @@ if (process.argv.length <= 2) {
 const filePath = process.argv[2];
 // Read the file
 fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(data);
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
 });
