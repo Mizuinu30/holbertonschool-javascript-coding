@@ -1,20 +1,12 @@
 #!/usr/bin/node
-
+// Write a string to a file
 const fs = require('fs');
-const process = require('process');
-
-if (process.argv.length <= 3) {
-    console.log("Usage: node script.js <file_path> <string_to_write>");
-    process.exit(-1);
-}
-
+// Check if the file path is provided as an argument
 const filePath = process.argv[2];
-const stringToWrite = process.argv[3];
-
-fs.writeFile(filePath, stringToWrite, 'utf-8', (err) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(`Content written to ${filePath}`);
+const content = process.argv[3];
+// Write the file
+fs.writeFile(filePath, content, 'utf8', (err) => {
+  if (err) {
+    console.error(err);
+  }
 });
