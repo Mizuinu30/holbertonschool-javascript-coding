@@ -2,8 +2,12 @@
 
 const request = require('request');
 const url = process.argv[2];
+
 request
   .get(url)
   .on('response', function (response) {
-    console.log('code: ' + response.statusCode);
+    console.log('code: ' + response.statusCode); // Print the status code
+  })
+  .on('error', function (error) {
+    console.error('Error:', error); // Print the error
   });
