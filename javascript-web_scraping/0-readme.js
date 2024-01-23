@@ -1,22 +1,20 @@
 #!/usr/bin/node
 
 const fs = require('fs');
+const process = require('process');
 
-// Function that reads a file and prints its content
-function readFileContent(filePath) {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            // Printing the error if an error occurred
-            console.error(err);
-        } else {
-            // Printing the content
-            console.log(data);
-        }
-    });
+// Check if the file path is provided as an argument
+if (process.argv.length <= 2) {
+    console.log("Please provide the file path as an argument.");
+    process.exit(-1);
 }
-
-
+// Get the file path
 const filePath = process.argv[2];
-
-// Calling the function with the provided file path
-readFileContent(filePath);
+// Read the file
+fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(data);
+});
