@@ -13,7 +13,7 @@ const app = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
 
   const { url } = req;
-//   console.log(url);
+  //   console.log(url);
   if (url === '/') {
     res.write('Hello Holberton School!');
   } else if (url === '/students') {
