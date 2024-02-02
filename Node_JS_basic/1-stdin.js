@@ -8,7 +8,7 @@ const rl = readline.createInterface({
 });
 
 // Ask the user for their name
-rl.question('Welcome to Holberton School, what is your name?', (name) => {
+rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
   // Output the user's name
   console.log(`Your name is: ${name}`);
 
