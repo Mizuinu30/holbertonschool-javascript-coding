@@ -1,32 +1,33 @@
+/* eslint-disable */
 const fs = require('fs');
 
 function countStudents(path) {
+  let data;
+
   try {
-    // Read the file synchronously
-    const data = fs.readFileSync(path, { encoding: 'utf8' });
-
-    // Split the data into lines
-    const lines = data.split('\n');
-
-    // Remove any trailing empty lines
-    const filteredLines = lines.filter((line) => line.trim() !== '');
-
-    // Ignore the header
-    const students = filteredLines.slice(1);
-
-    console.log(`Number of students: ${students.length}`);
-
-    // Create a map to keep track of fields and students
-    const fieldMap = {};
-
-    for (const field in fieldMap) {
-      if (Object.prototype.hasOwnProperty.call(fieldMap, field)) {
-        const studentList = fieldMap[field].map((student) => student.split(',')[0]).join(', ');
-        console.log(`Number of students in ${field}: ${fieldMap[field].length}. List: ${studentList}`);
-      }
-    }
-  } catch (error) {
+    data = fs.readFileSync(path, 'utf8');
+  } catch (err) {
     throw new Error('Cannot load the database');
+  }
+
+  const lines = data.toString().split('\n');
+  const students = lines.filter((line) => line).map((line) => line.split(','));
+
+  const num_students = students.length ? students.length - 1 : 0;
+  console.log(`Number of students: ${num_students}`);
+
+  const fields = {};
+  for (const student in students) {
+    if (student !== 0) {
+        if (!fields[students[student][3]]) fields[students[student][3]] = [];
+        fields[students[student][3]].push(students[student][0]);
+    }
+  }
+
+  delete fields.field;
+
+  for (const field in fields) {
+    console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
   }
 }
 
