@@ -18,5 +18,5 @@ rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
 
 // Add a listener for the 'close' event
 rl.on('close', () => {
-  process.stdout.write('This important software is now closing');
+  process.stdout.write('This important software is now closing\n');
 });
