@@ -1,34 +1,49 @@
-const fs = require('fs');
+import readDatabase from '../utils';
 
-function readDatabase(path) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        reject(Error(err));
-        return;
-      }
-      const content = data.toString().split('\n');
+class StudentsController {
+  static getAllStudents(request, response, DATABASE) {
+    readDatabase(DATABASE)
+      .then((fields) => {
+        const students = [];
+        // let count = 0;
+        let msg;
 
-      let students = content.filter((item) => item);
+        // for (const key of Object.keys(fields)) {
+        //   count += fields[key].length;
+        // }
 
-      students = students.map((item) => item.split(','));
+        // students.push(`Number of students: ${count}`);
+        students.push('This is the list of our students');
 
-      const fields = {};
-      for (const i in students) {
-        if (i !== 0) {
-          if (!fields[students[i][3]]) fields[students[i][3]] = [];
+        for (const key of Object.keys(fields)) {
+          msg = `Number of students in ${key}: ${
+            fields[key].length
+          }. List: ${fields[key].join(', ')}`;
 
-          fields[students[i][3]].push(students[i][0]);
+          students.push(msg);
         }
-      }
+        response.send(200, `${students.join('\n')}`);
+      })
+      .catch(() => {
+        response.send(500, 'Cannot load the database');
+      });
+  }
 
-      delete fields.field;
+  static getAllStudentsByMajor(request, response, DATABASE) {
+    const { major } = request.params;
 
-      resolve(fields);
+    if (major !== 'CS' && major !== 'SWE') {
+      response.send(500, 'Major parameter must be CS or SWE');
+    } else {
+      readDatabase(DATABASE)
+        .then((fields) => {
+          const students = fields[major];
 
-      //   return fields;
-    });
-  });
+          response.send(200, `List: ${students.join(', ')}`);
+        })
+        .catch(() => response.send(500, 'Cannot load the database'));
+    }
+  }
 }
 
-export default readDatabase;
+export default StudentsController;
