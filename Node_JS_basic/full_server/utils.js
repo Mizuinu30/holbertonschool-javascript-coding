@@ -1,60 +1,34 @@
 const fs = require('fs');
-const util = require('util');
 
-const readFile = util.promisify(fs.readFile); // Promisify readFile for cleaner async/await usage
-
-/**
- * Reads a database file and organizes students by field.
- *
- * @param {string} path - The path to the database file.
- * @return {Promise<Object>} - A promise that resolves to an object with
- * student first names categorized by field.
- */
 function readDatabase(path) {
   return new Promise((resolve, reject) => {
-    // Read the file asynchronously
-    readFile(path, { encoding: 'utf8' })
-      .then((data) => {
-        try {
-          // Split the data into lines
-          const lines = data.trim().split('\n');
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(Error(err));
+        return;
+      }
+      const content = data.toString().split('\n');
 
-          // Ensure there's more than just the header
-          if (lines.length <= 1) {
-            throw new Error('No student data found.');
-          }
+      let students = content.filter((item) => item);
 
-          // Remove the header line
-          const [, ...students] = lines;
+      students = students.map((item) => item.split(','));
 
-          // Initialize an object to hold students categorized by field
-          const studentsByField = {};
+      const fields = {};
+      for (const i in students) {
+        if (i !== 0) {
+          if (!fields[students[i][3]]) fields[students[i][3]] = [];
 
-          // Iterate over each student
-          students.forEach((line) => {
-            const [firstName, , field] = line.split(',');
-
-            // Initialize the field array if not already present
-            if (!studentsByField[field]) {
-              studentsByField[field] = [];
-            }
-
-            // Add the student's first name to the appropriate field
-            studentsByField[field].push(firstName);
-          });
-
-          // Resolve the promise with the categorized students
-          resolve(studentsByField);
-        } catch (error) {
-          // Reject the promise if there's an error
-          reject(error);
+          fields[students[i][3]].push(students[i][0]);
         }
-      })
-      .catch((error) => {
-        // Handle file read errors
-        reject(error);
-      });
+      }
+
+      delete fields.field;
+
+      resolve(fields);
+
+      //   return fields;
+    });
   });
 }
 
-module.exports = readDatabase;
+export default readDatabase;
