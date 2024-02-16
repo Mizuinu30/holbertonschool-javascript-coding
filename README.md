@@ -40,7 +40,8 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 
 ## Authors
 
-Juan Silva - [Github](https://github.com/Mizuinu30) / [linkedin] https://www.linkedin.com/in/juan-silva-005ba1222/
+Juan Silva: Delivering innovative solutions and driving technical excellence in C, Python, JavaScript, SQL, and R. Holberton Coding School graduate with expertise in enhancing web app performance using AWS. Certifications in Computer Science and Google Data Analytics. Committed to lifelong learning and innovating sustainable, impactful solutions.
+[Email](juansilva.dvm@gmail.com) | [Linkedin](linkedin.com/in/juan-silva-rubio) | [GitHub](github.com/Mizuinu30)
 
 ## License
 
